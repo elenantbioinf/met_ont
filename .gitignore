@@ -1,3 +1,23 @@
+#Ignore project bundle directory
+bundle/
+
+#Ignore the data files
+*.bam
+*.bai
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.pod5
+*.pod5.gz
+
+#Ignore the results and logs files
+results/
+logs/
+
+#Ignore the intermediate or processed data files
+data/processed/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
