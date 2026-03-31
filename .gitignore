@@ -1,5 +1,5 @@
 #Ignore project bundle directory
-bundle/
+.bundle/
 
 #Ignore the data files
 *.bam
