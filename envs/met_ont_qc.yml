@@ -1,0 +1,8 @@
+name: met_ont_qc
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - samtools
+  - mosdepth
