@@ -1,8 +1,9 @@
 name: met_ont_qc
 channels:
-  - bioconda
   - conda-forge
-  - defaults
+  - bioconda
 dependencies:
+  - python=3.9
   - samtools
   - mosdepth
+  - nanoplot=1.46.2
