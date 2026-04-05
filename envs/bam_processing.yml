@@ -1,0 +1,6 @@
+name: bam_processing
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - samtools=1.23.1
