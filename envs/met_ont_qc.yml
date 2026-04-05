@@ -4,6 +4,6 @@ channels:
   - bioconda
 dependencies:
   - python=3.9
-  - samtools
-  - mosdepth
+  - samtools=1.23.1
+  - mosdepth=0.3.13
   - nanoplot=1.46.2
