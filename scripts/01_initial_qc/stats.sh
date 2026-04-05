@@ -8,11 +8,13 @@ set -euo pipefail
 
 BAM="$1"
 OUT="$2"
-LOG="logs/01_initial_qc/$(basename "$OUT").log"
+
+LOG_DIR="$(dirname "$OUT" | sed 's|^results/|logs/|')"
+LOG="${LOG_DIR}/$(basename "$OUT" .txt).log"
 
 echo "Creating output directory if it doesn't exist..."
 mkdir -p "$(dirname "$OUT")"
-mkdir -p logs/01_initial_qc
+mkdir -p "$LOG_DIR"
 
 echo "Running samtools stats on $BAM..."
 samtools stats "$BAM" > "$OUT" 2> "$LOG"

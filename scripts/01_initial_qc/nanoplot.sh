@@ -9,11 +9,13 @@ set -euo pipefail
 BAM="$1"
 OUTDIR="$2"
 SAMPLE="$(basename "$BAM" .bam)"
-LOG="logs/01_initial_qc/${SAMPLE}_nanoplot.log"
+
+LOG_DIR="$(dirname "$OUTDIR" | sed 's|^results/|logs/|')"
+LOG="${LOG_DIR}/${SAMPLE}_nanoplot.log"
 
 echo "Creating output directory if it doesn't exist..."
 mkdir -p "$OUTDIR"
-mkdir -p logs/01_initial_qc
+mkdir -p "$LOG_DIR"
 
 echo "Running NanoPlot on $BAM..."
 NanoPlot --bam "$BAM" -o "$OUTDIR" -p "$SAMPLE" 2> "$LOG"
