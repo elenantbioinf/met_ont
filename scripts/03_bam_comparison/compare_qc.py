@@ -69,6 +69,7 @@ with open(flagstat_output_tsv, "w") as out:
         f"{sample_name}\tfiltered\t{filtered_metrics['total']}\t{filtered_metrics['mapped']}\t{filtered_metrics['primary']}\t{filtered_metrics['secondary']}\t{filtered_metrics['supplementary']}\n"
     )
 
+#Info message of finished flagstat comparison
 print("Flagstat comparison completed.")
 print(f"Flagstat comparison file: {flagstat_output_tsv}")
 
@@ -135,6 +136,7 @@ with open(stats_output_tsv, "w") as out:
         f"{sample_name}\tfiltered\t{filtered_stats_metrics['reads_mapped']}\t{filtered_stats_metrics['reads_MQ0']}\t{filtered_stats_metrics['non_primary_alignments']}\t{filtered_stats_metrics['supplementary_alignments']}\t{filtered_stats_metrics['bases_mapped_cigar']}\t{filtered_stats_metrics['error_rate']}\t{filtered_stats_metrics['average_length']}\t{filtered_stats_metrics['maximum_length']}\n"
     )
 
+#Info message of finished stats comparison
 print("Stats comparison completed.")
 print(f"Stats comparison file: {stats_output_tsv}")
 
@@ -188,5 +190,109 @@ with open(mosdepth_output_tsv, "w") as out:
             f"{sample_name}\tfiltered\t{metrics['region']}\t{metrics['length']}\t{metrics['bases']}\t{metrics['mean_coverage']}\t{metrics['min_coverage']}\t{metrics['max_coverage']}\n"
         )
 
+#Info message of finished mosdepth comparison
 print("Mosdepth comparison completed.")
 print(f"Mosdepth comparison file: {mosdepth_output_tsv}")
+
+
+###########################
+### NANOPLOT COMPARISON ###
+###########################
+
+#Define paths to NanoStats files and output NanoPlot TSV file
+raw_nanoplot_stats = f"{results_dir}/01_initial_qc/nanoplot/{sample_name}/{sample_name}NanoStats.txt"
+filtered_nanoplot_stats = f"{results_dir}/02_post_filtering_qc/nanoplot/{sample_name}_filtered/{sample_name}_filteredNanoStats.txt"
+nanoplot_output_tsv = f"{output_dir}/{sample_name}_nanoplot_comparison.tsv"
+
+#Define a function to extract relevant metrics from NanoStats output
+def extract_nanostats_metrics(nanostats_file):
+    metrics = {
+        "average_percent_identity": "",
+        "fraction_bases_aligned": "",
+        "mean_read_length": "",
+        "mean_read_quality": "",
+        "median_percent_identity": "",
+        "median_read_length": "",
+        "median_read_quality": "",
+        "number_of_reads": "",
+        "read_length_n50": "",
+        "stdev_read_length": "",
+        "total_bases": "",
+        "total_bases_aligned": "",
+    }
+
+    with open(nanostats_file, "r") as f:
+        for line in f:
+            line = line.strip()
+
+            if line.startswith("Average percent identity:"):
+                metrics["average_percent_identity"] = float(line.split()[-1])
+
+            elif line.startswith("Fraction of bases aligned:"):
+                metrics["fraction_bases_aligned"] = float(line.split()[-1])
+
+            elif line.startswith("Mean read length:"):
+                metrics["mean_read_length"] = float(line.split()[-1].replace(",", ""))
+
+            elif line.startswith("Mean read quality:"):
+                metrics["mean_read_quality"] = float(line.split()[-1])
+
+            elif line.startswith("Median percent identity:"):
+                metrics["median_percent_identity"] = float(line.split()[-1])
+
+            elif line.startswith("Median read length:"):
+                metrics["median_read_length"] = float(line.split()[-1].replace(",", ""))
+
+            elif line.startswith("Median read quality:"):
+                metrics["median_read_quality"] = float(line.split()[-1])
+
+            elif line.startswith("Number of reads:"):
+                metrics["number_of_reads"] = float(line.split()[-1].replace(",", ""))
+
+            elif line.startswith("Read length N50:"):
+                metrics["read_length_n50"] = float(line.split()[-1].replace(",", ""))
+
+            elif line.startswith("STDEV read length:"):
+                metrics["stdev_read_length"] = float(line.split()[-1].replace(",", ""))
+
+            elif line.startswith("Total bases:"):
+                metrics["total_bases"] = float(line.split()[-1].replace(",", ""))
+
+            elif line.startswith("Total bases aligned:"):
+                metrics["total_bases_aligned"] = float(line.split()[-1].replace(",", ""))
+
+    return metrics
+
+#Extract metrics from both NanoStats files
+raw_nanostats_metrics = extract_nanostats_metrics(raw_nanoplot_stats)
+filtered_nanostats_metrics = extract_nanostats_metrics(filtered_nanoplot_stats) 
+
+#Define the order of rows for the output TSV
+nanostats_rows = [
+    "average_percent_identity",
+    "fraction_bases_aligned",
+    "mean_read_length",
+    "mean_read_quality",
+    "median_percent_identity",
+    "median_read_length",
+    "median_read_quality",
+    "number_of_reads",
+    "read_length_n50",
+    "stdev_read_length",
+    "total_bases",
+    "total_bases_aligned",
+]
+
+#Create a table to compare the NanoStats metrics and save to a TSV file
+with open(nanoplot_output_tsv, "w") as out:
+    out.write("sample\tmetric\traw\tfiltered\n")
+
+    for metric in nanostats_rows:
+        out.write(
+            f"{sample_name}\t{metric}\t{raw_nanostats_metrics[metric]}\t{filtered_nanostats_metrics[metric]}\n"
+        )
+
+#Info message of finished NanoPlot comparison
+print("NanoPlot comparison completed.")
+print(f"NanoPlot comparison file: {nanoplot_output_tsv}")
+print("[FINISHED] All QC comparisons completed successfully.")
