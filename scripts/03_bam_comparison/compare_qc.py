@@ -137,3 +137,56 @@ with open(stats_output_tsv, "w") as out:
 
 print("Stats comparison completed.")
 print(f"Stats comparison file: {stats_output_tsv}")
+
+###########################
+### MOSDEPTH COMPARISON ###
+###########################
+
+#Define paths to mosdepth summary files and output mosdepth TSV file
+raw_mosdepth_summary = f"{results_dir}/01_initial_qc/mosdepth/{sample_name}.mosdepth.summary.txt"
+filtered_mosdepth_summary = f"{results_dir}/02_post_filtering_qc/mosdepth/{sample_name}_filtered.mosdepth.summary.txt"
+mosdepth_output_tsv = f"{output_dir}/{sample_name}_mosdepth_comparison.tsv"
+
+#Define a function to extract relevant metrics from mosdepth summary output
+def extract_mosdepth_summary_metrics(mosdepth_file):
+    metrics = []
+
+    with open(mosdepth_file, "r") as f:
+        for line in f:
+            line = line.strip()
+
+            if line.startswith("chrom"):
+                continue
+
+            fields = line.split("\t")
+            metrics.append({
+                "region": fields[0],
+                "length": int(fields[1]),
+                "bases": int(fields[2]),
+                "mean_coverage": float(fields[3]),
+                "min_coverage": int(fields[4]),
+                "max_coverage": int(fields[5]),
+            })
+
+    return metrics
+
+#Extract metrics from both mosdepth summary files
+raw_mosdepth_metrics = extract_mosdepth_summary_metrics(raw_mosdepth_summary)
+filtered_mosdepth_metrics = extract_mosdepth_summary_metrics(filtered_mosdepth_summary)
+
+#Create a table to compare the mosdepth summary metrics and save to a TSV file
+with open(mosdepth_output_tsv, "w") as out:
+    out.write("sample\tstate\tregion\tlength\tbases\tmean_coverage\tmin_coverage\tmax_coverage\n")
+
+    for metrics in raw_mosdepth_metrics:
+        out.write(
+            f"{sample_name}\traw\t{metrics['region']}\t{metrics['length']}\t{metrics['bases']}\t{metrics['mean_coverage']}\t{metrics['min_coverage']}\t{metrics['max_coverage']}\n"
+        )
+
+    for metrics in filtered_mosdepth_metrics:
+        out.write(
+            f"{sample_name}\tfiltered\t{metrics['region']}\t{metrics['length']}\t{metrics['bases']}\t{metrics['mean_coverage']}\t{metrics['min_coverage']}\t{metrics['max_coverage']}\n"
+        )
+
+print("Mosdepth comparison completed.")
+print(f"Mosdepth comparison file: {mosdepth_output_tsv}")
