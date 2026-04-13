@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-# This script runs samtools view on BAM files to filter out secondary alignments
+# This script filters BAM files for methylation analysis:
+# - keeps only primary alignments
+# - keeps only alignments with MAPQ >= 20
+# - keeps only reads with sequence length >= 1000 bp
 
-# Use: bash filter_secondary_alignments.sh <input.bam>
+# Use: bash filter_bam_for_methylation.sh <input.bam>
 
 set -euo pipefail
 
@@ -14,8 +17,13 @@ echo "Creating output directory if it doesn't exist..."
 mkdir -p "$(dirname "$BAM_FILTERED")"
 mkdir -p logs/02_filtering
 
-echo "Filtering out secondary alignments from $BAM_RAW..."
-samtools view -h -b -F 0x100 "$BAM_RAW" -o "$BAM_FILTERED" 2> "$LOG"
+echo "Filtering $BAM_RAW for methylation analysis..."
+samtools view -h -b \
+    -F 2308 \
+    -q 20 \
+    -m 1000 \
+    "$BAM_RAW" \
+    -o "$BAM_FILTERED" 2> "$LOG"
 echo "Filtering done."
 
 echo "Indexing the filtered BAM file..."
