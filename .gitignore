@@ -18,6 +18,18 @@ logs/
 #Ignore the intermediate or processed data files
 data/processed/
 
+# Ignore external resource contents
+resources/*
+
+#Keep the README files in the resources directories
+!resources/clair3_model/
+resources/clair3_model/*
+!resources/clair3_model/README.md
+
+!resources/ref_genome/
+resources/ref_genome/*
+!resources/ref_genome/README.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

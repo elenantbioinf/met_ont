@@ -14,5 +14,7 @@ mkdir -p results
 mkdir -p logs
 mkdir -p config
 mkdir -p envs
+mkdir -p resources/ref_genome
+mkdir -p resources/clair3_model
 
 echo "Project structure created successfully"
