@@ -12,6 +12,8 @@ REF="resources/ref_genome/GRCh38.primary_assembly.genome.fa"
 MODEL="resources/clair3_model/r1041_e82_400bps_hac_v500"
 OUTDIR="results/05_variant_phasing/variant_calling/${SAMPLE}"
 LOG="logs/05_variant_phasing/${SAMPLE}_clair3.log"
+FINAL_VCF="${OUTDIR}/${SAMPLE}_clair3.vcf.gz"
+FINAL_TBI="${OUTDIR}/${SAMPLE}_clair3.vcf.gz.tbi"
 
 echo "Creating output directory for Clair3 results if it doesn't exist..."
 mkdir -p "$OUTDIR"
@@ -27,6 +29,10 @@ run_clair3.sh \
     --output="$OUTDIR" \
     > "$LOG" 2>&1
 
-echo "Clair3 run complete. Results are in $OUTDIR."
+mv "${OUTDIR}/merge_output.vcf.gz" "$FINAL_VCF"
+mv "${OUTDIR}/merge_output.vcf.gz.tbi" "$FINAL_TBI"
+
+echo "Clair3 run complete."
+echo "Results saved to $FINAL_VCF and $FINAL_TBI."
 
 
