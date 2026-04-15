@@ -10,14 +10,14 @@ BAM_FILTERED="$1"
 SAMPLE="$(basename "$BAM_FILTERED" .bam)"
 REF="resources/ref_genome/GRCh38.primary_assembly.genome.fa"
 MODEL="resources/clair3_model/r1041_e82_400bps_hac_v500"
-OUTDIR="results/05_variant_phasing/variant_calling/${SAMPLE}"
-LOG="logs/05_variant_phasing/${SAMPLE}_clair3.log"
+OUTDIR="results/06_variant_phasing/variant_calling/${SAMPLE}"
+LOG="logs/06_variant_phasing/${SAMPLE}_clair3.log"
 FINAL_VCF="${OUTDIR}/${SAMPLE}_clair3.vcf.gz"
 FINAL_TBI="${OUTDIR}/${SAMPLE}_clair3.vcf.gz.tbi"
 
 echo "Creating output directory for Clair3 results if it doesn't exist..."
 mkdir -p "$OUTDIR"
-mkdir -p logs/05_variant_phasing
+mkdir -p logs/06_variant_phasing
 
 echo "Running Clair3 on $BAM_FILTERED..."
 run_clair3.sh \

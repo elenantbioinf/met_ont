@@ -8,8 +8,8 @@ set -euo pipefail
 
 INPUT_VCF="$1"
 SAMPLE="$(basename "$INPUT_VCF" .vcf.gz)"
-OUTPUT_VCF="results/05_variant_phasing/variant_filtering/${SAMPLE}_pass.vcf.gz"
-LOG="logs/05_variant_phasing/variant_filtering/${SAMPLE}.log"
+OUTPUT_VCF="results/06_variant_phasing/variant_filtering/${SAMPLE}_pass.vcf.gz"
+LOG="logs/06_variant_phasing/variant_filtering/${SAMPLE}.log"
 
 echo "Creating output and log directories if they don't exist..."
 mkdir -p "$(dirname "$OUTPUT_VCF")"
