@@ -1,0 +1,13 @@
+name: variant_phasing
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - clair3=1.2.0
+  - whatshap=1.7
+  - snpeff=5.4.0c
+  - samtools=1.23.1
+  - bcftools=1.23.1
+  - tabix
+  - openjdk
