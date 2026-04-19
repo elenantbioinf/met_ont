@@ -17,7 +17,7 @@ REF_GENOME="resources/ref_genome/GRCh38.primary_assembly.genome.fa"
 SAMPLE_NAME=$(basename "$VCF_PASS" _clair3_pass.vcf.gz)
 
 #Output directory and file names
-OUTPUT_DIR="results/07_variant_phasing/whatshap/${SAMPLE_NAME}"
+OUTPUT_DIR="results/07_variant_phasing/phase/${SAMPLE_NAME}"
 PHASED_VCF="${OUTPUT_DIR}/${SAMPLE_NAME}_phased.vcf.gz"
 
 #Logging
