@@ -2,33 +2,34 @@
 
 #This script performs variant phasing using WhatsHap.
 
-#Use: bash variant_phasing_whatshap.sh <bam_markdup> <vcf_pass>
+#Use: bash variant_phasing_whatshap.sh <bam_markdup> <vcf_pass> <caller_name>
 
 set -euo pipefail
 
 #Input parameters
 BAM_MARKDUP="$1"
 VCF_PASS="$2"
+CALLER_NAME="$3"
 
 #Reference genome
 REF_GENOME="resources/ref_genome/GRCh38.primary_assembly.genome.fa"
 
 #Sample name
-SAMPLE_NAME=$(basename "$VCF_PASS" _clair3_pass.vcf.gz)
+SAMPLE_NAME=$(basename "$VCF_PASS" _${CALLER_NAME}_pass.vcf.gz)
 
 #Output directory and file names
-OUTPUT_DIR="results/07_variant_phasing/phase/${SAMPLE_NAME}"
-PHASED_VCF="${OUTPUT_DIR}/${SAMPLE_NAME}_phased.vcf.gz"
+OUTPUT_DIR="results/07_variant_phasing/phase/${CALLER_NAME}/${SAMPLE_NAME}"
+PHASED_VCF="${OUTPUT_DIR}/${SAMPLE_NAME}_${CALLER_NAME}_phased.vcf.gz"
 
 #Logging
-LOG_FILE="logs/07_variant_phasing/${SAMPLE_NAME}_whatshap_phasing.log"
+LOG_FILE="logs/07_variant_phasing/${CALLER_NAME}/${SAMPLE_NAME}_${CALLER_NAME}_whatshap_phasing.log"
 
 echo "Creating output and log directories if they don't exist..."
 
 mkdir -p "$OUTPUT_DIR"
 mkdir -p "$(dirname "$LOG_FILE")"
 
-echo "Starting variant phasing with WhatsHap for sample ${SAMPLE_NAME}..."
+echo "Starting variant phasing with WhatsHap for sample ${SAMPLE_NAME} using caller ${CALLER_NAME}..."
 
 whatshap phase \
     --reference "$REF_GENOME" \
@@ -43,7 +44,7 @@ whatshap phase \
 echo "Indexing phased VCF with tabix..."
 tabix -p vcf "$PHASED_VCF" >> "$LOG_FILE" 2>&1
 
-echo "Variant phasing completed for sample ${SAMPLE_NAME}"
+echo "Variant phasing completed for sample ${SAMPLE_NAME} using caller ${CALLER_NAME}"
 echo "Phased VCF: ${PHASED_VCF}"
 echo "Index file: ${PHASED_VCF}.tbi"
 echo "Log file: ${LOG_FILE}"
