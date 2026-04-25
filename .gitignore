@@ -30,6 +30,10 @@ resources/clair3_model/*
 resources/ref_genome/*
 !resources/ref_genome/README.md
 
+!resources/containers/
+resources/containers/*
+!resources/containers/README.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
