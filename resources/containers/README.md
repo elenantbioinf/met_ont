@@ -18,3 +18,17 @@ apptainer pull resources/containers/deepvariant_1.10.0.sif \
 The generated image will be stored as:
 
 `resources/containers/deepvariant_1.10.0.sif`
+
+## VEP 
+
+Ensembl VEP is executed using an Apptainer container generated from the official Ensembl Docker image.
+
+To download the VEP container image, run the following command from the root of the project:
+
+```bash
+apptainer pull resources/containers/vep.sif docker://ensemblorg/ensembl-vep
+```
+
+The generated image will be stored as: 
+
+`resources/containers/vep.sif`

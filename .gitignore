@@ -34,6 +34,10 @@ resources/ref_genome/*
 resources/containers/*
 !resources/containers/README.md
 
+!resources/vep_data/
+resources/vep_data/*
+!resources/vep_data/README.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
