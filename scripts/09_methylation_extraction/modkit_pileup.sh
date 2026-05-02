@@ -35,6 +35,12 @@ modkit pileup \
     "$OUT_DIR" \
     2>> "$LOG_FILE"
 
+echo "Renaming output files to include sample name and caller..."
+for file in "$OUT_DIR"/*.bed.gz; do
+    base=$(basename "$file" .bed.gz)
+    mv "$file" "${OUT_DIR}/${SAMPLE_NAME}_${CALLER}_${base}.bed.gz"
+done
+
 echo "Phased Modkit pileup completed for ${SAMPLE_NAME}."
 echo "Output directory: ${OUT_DIR}"
 echo "Log: ${LOG_FILE}"
