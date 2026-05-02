@@ -38,6 +38,10 @@ resources/containers/*
 resources/vep_data/*
 !resources/vep_data/README.md
 
+!resources/R_libs/
+resources/R_libs/*
+!resources/R_libs/README.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

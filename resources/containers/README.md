@@ -31,4 +31,25 @@ apptainer pull resources/containers/vep.sif docker://ensemblorg/ensembl-vep
 
 The generated image will be stored as: 
 
-`resources/containers/vep.sif`
+`resources/containers/vep.sif` 
+
+## Bioconductor
+
+NanoMethViz is executed through this Bioconductor Apptainer container instead of a Conda environment because recent NanoMethViz versions were not resolved correctly in the local linux-64 Conda environment.
+
+To download the Bioconductor container image, run the following command from the root of the project:
+
+```bash
+apptainer pull resources/containers/bioconductor_3.19.sif \
+  docker://bioconductor/bioconductor_docker:RELEASE_3_19
+```
+
+The generated image will be stored as:
+
+`resources/containers/bioconductor_3.19.sif`
+
+NanoMethViz and related R packages are installed outside the container in:
+
+`resources/R_libs/nanomethviz_bioc3.19/`
+
+This is done because the .sif image is treated as a read-only execution environment.
